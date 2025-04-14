@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>移动端登录界面设计</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .prototype {
+            width: 375px;
+            height: 667px;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+            margin: 20px;
+        }
+        
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            padding: 40px 30px;
+            height: 100%;
+        }
+        
+        .logo-area {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            margin-top: 60px;
+        }
+        
+        .logo {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(110, 142, 251, 0.3);
+        }
+        
+        .logo span {
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .title h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .title p {
+            font-size: 16px;
+            color: #888;
+        }
+        
+        .input-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+        
+        .input-group input {
+            width: 100%;
+            height: 56px;
+            background-color: #f5f6fa;
+            border: none;
+            border-radius: 12px;
+            padding: 0 20px;
+            padding-left: 50px;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus {
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            outline: none;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a1a8c3;
+            font-size: 20px;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 30px;
+        }
+        
+        .forgot-password a {
+            color: #a1a8c3;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .login-button {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            border: none;
+            height: 56px;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(110, 142, 251, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(110, 142, 251, 0.4);
+        }
+        
+        .login-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 15px rgba(110, 142, 251, 0.2);
+        }
+        
+        .other-options {
+            text-align: center;
+            color: #a1a8c3;
+            font-size: 14px;
+            margin-top: auto;
+            margin-bottom: 40px;
+        }
+        
+        .design-notes {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background-color: #fff;
+            border-left: 1px solid #eee;
+        }
+        
+        .note {
+            margin-bottom: 30px;
+        }
+        
+        .note h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .note p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        @media screen and (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .prototype {
+                width: 100%;
+                height: auto;
+                min-height: 100vw;
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .design-notes {
+                padding: 20px;
+            }
+        }
+        
+        /* 添加图标字体 */
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/materialicons/v139/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+        }
+        
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <div class="prototype">
+        <div class="login-container">
+            <div class="logo-area">
+                <div class="logo">
+                    <span>A</span>
+                </div>
+            </div>
+            <div class="title">
+                <h1>欢迎回来</h1>
+                <p>请输入您的账号信息</p>
+            </div>
+            <div class="input-group">
+                <i class="material-icons">person</i>
+                <input type="text" placeholder="用户名/手机号" id="username">
+            </div>
+            <div class="input-group">
+                <i class="material-icons">lock</i>
+                <input type="password" placeholder="密码" id="password">
+            </div>
+            <div class="forgot-password">
+                <a href="#" id="forgot-link">忘记密码?</a>
+            </div>
+            <button class="login-button" id="login-btn">登录</button>
+            <div class="other-options">
+                还没有账号? <a href="#" style="color: #6e8efb; font-weight: 500;">立即注册</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="design-notes">
+        <h2 style="margin-bottom: 30px; font-size: 24px; color: #333;">移动端登录页设计说明</h2>
+        
+        <div class="note">
+            <h3>整体设计理念</h3>
+            <p>采用简约现代的设计风格，以渐变蓝紫色为主色调，营造科技感与信任感。整体布局采用垂直居中的方式，视觉平衡，操作便捷。</p>
+        </div>
+        
+        <div class="note">
+            <h3>色彩选择</h3>
+            <p>主色调使用渐变蓝紫色（#6e8efb 到 #a777e3），传达科技感与创新性；背景采用纯白色，提高对比度和内容可读性；辅助色使用浅灰色调，创造层次感。</p>
+        </div>
+        
+        <div class="note">
+            <h3>组件设计</h3>
+            <p>Logo：使用简约的App图标，突出品牌识别；<br>
+               输入框：采用圆角矩形设计，内置图标提升可用性；<br>
+               按钮：使用渐变色填充，添加阴影提升视觉层次；<br>
+               文字链接：使用适当颜色区分不同功能的链接。</p>
+        </div>
+        
+        <div class="note">
+            <h3>交互设计</h3>
+            <p>输入框聚焦时会改变背景色并添加阴影效果；<br>
+               按钮有悬停和点击效果，提供即时视觉反馈；<br>
+               页面各元素间距经过精心计算，确保视觉舒适度。</p>
+        </div>
+        
+        <div class="note">
+            <h3>字体与排版</h3>
+            <p>使用无衬线字体，提高移动端可读性；<br>
+               字号设计合理，主标题28px，副标题16px，输入文本16px；<br>
+               文字间距和行高经过优化，提升阅读体验。</p>
+        </div>
+    </div>
+    
+    <script>
+        // 简单交互效果
+        document.getElementById('login-btn').addEventListener('click', function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if(!username || !password) {
+                alert('请输入用户名和密码');
+                return;
+            }
+            
+            alert('登录成功！');
+        });
+        
+        document.getElementById('forgot-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('跳转至找回密码页面');
+        });
+    </script>
+</body>
+</html> 

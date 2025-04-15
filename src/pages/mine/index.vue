@@ -28,6 +28,9 @@
             <text class="iconfont">⊕</text>
           </view>
         </view>
+        <view>123
+          <uni-icons type="contact" size="30"></uni-icons>
+        </view>
       </view>
       
       <!-- 横幅广告区 -->

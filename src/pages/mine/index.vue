@@ -10,6 +10,7 @@
           <text class="battery-icon">⬜</text>
         </view>
       </view>
+      <wd-button>主要按钮</wd-button>
       
       <view class="header-controls">
         <view class="left-controls">

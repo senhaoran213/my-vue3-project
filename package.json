@@ -51,7 +51,8 @@
     "@dcloudio/uni-mp-xhs": "3.0.0-4030620241128001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-4030620241128001",
     "vue": "^3.5.13",
-    "vue-i18n": "^9.1.9"
+    "vue-i18n": "^9.1.9",
+    "wot-design-uni": "^1.8.0"
   },
   "devDependencies": {
     "@dcloudio/types": "^3.4.8",

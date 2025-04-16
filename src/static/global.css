@@ -1,0 +1,11 @@
+.wd-card {
+    border-radius: 3vw !important;
+  }
+
+/* 确保影响到卡片内部元素 */
+.wd-card .wd-card__content,
+.wd-card .wd-card__header,
+.wd-card .wd-card__body,
+.wd-card .wd-card__footer {
+  border-radius: inherit;
+}

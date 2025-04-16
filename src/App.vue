@@ -11,6 +11,7 @@ onHide(() => {
 });
 </script>
 <style>
+@import '@/static/global.css';
  page{
   background-color: #f3f3f3;
  }

@@ -77,7 +77,6 @@ const dataList = reactive<smallModeDto[]>([
 <style scoped lang='scss'>
 .container {
   background: url('/static/images/mine/mine-bgc.png') top/100% no-repeat;
-  height: 1500px;
   padding: 20px 10px 0 10px;
   box-sizing: border-box;
 
@@ -89,12 +88,16 @@ const dataList = reactive<smallModeDto[]>([
         .uniui-headphones:before {
           background-color: rgba(0, 0, 0, .3);
           border-radius: 50%;
+          padding: 3px;
+          box-sizing: border-box;
         }
 
         .uniui-notification:before {
           background-color: rgba(0, 0, 0, .3);
           border-radius: 50%;
           margin-left: 3vw;
+          padding: 3px;
+          box-sizing: border-box;
         }
       }
     }
@@ -136,7 +139,7 @@ const dataList = reactive<smallModeDto[]>([
   .wd-card {
     margin-top: 65%;
     height: 200px;
-
+    border-radius: 20px;
     .title-top {
       display: flex;
       justify-content: space-between;

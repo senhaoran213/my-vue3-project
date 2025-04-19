@@ -145,7 +145,7 @@ const dataList = reactive<smallModeDto[]>([
         display: flex;
 
         .wd-img {
-          background-color: green;
+          background-color: rgb(201, 115, 146);
           margin-top: -40px;
         }
 

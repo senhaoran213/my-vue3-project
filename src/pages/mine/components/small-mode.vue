@@ -13,10 +13,10 @@
     </view>
 </template>
 <script setup lang="ts">
-import { type smallModeDto } from '../interface';
+import { type SmallModeDto } from '../interface';
 import { withDefaults } from 'vue';
 const props = withDefaults(defineProps<{
-    smallModeList: smallModeDto
+    smallModeList: SmallModeDto
 }>(), {
     smallModeList: () => ({
         unit: '次',
@@ -30,6 +30,7 @@ const props = withDefaults(defineProps<{
 .mode {
     .mode-top {
         display: flex;
+        align-items: center;
 
         .name {
             margin-left: 1vw;

@@ -45,15 +45,42 @@
           <small-mode v-for="(item, index) in dataList " :smallModeList="item" :key="index"></small-mode>
         </view>
       </template>
+      <template #footer>
+        <view class="foot">
+          <view class="foot-left">
+            <view class="light-img">
+              <wd-img :width="20" :height="20" src="/static/images/mine/light.png"></wd-img>
+            </view>
+            <view class="text-center">
+              闪动福利包
+            </view>
+            <view class="text-right">
+              查看权益
+              <text style="margin-left: 3px;">></text>
+            </view>
+          </view>
+          <view class="foot-right">
+            <view class="content-text">立即开通</view>
+          </view>
+        </view>
+      </template>
     </wd-card>
+    <center-navigation></center-navigation>
+    <center-settle></center-settle>
+    <center-ads></center-ads>
+    <mode-card></mode-card>
   </view>
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { type SmallModeDto } from './interface';
 import smallMode from './components/small-mode.vue';
-import { type smallModeDto } from './interface';
+import centerNavigation from './components/center-navigation.vue';
+import centerSettle from './components/center-settle.vue';
+import centerAds from './components/center-ads.vue';
+import modeCard from './components/mode-card.vue';
 
-const dataList = reactive<smallModeDto[]>([
+const dataList = reactive<SmallModeDto[]>([
   {
     unit: '次',
     count: 0,
@@ -77,7 +104,6 @@ const dataList = reactive<smallModeDto[]>([
 <style scoped lang='scss'>
 .container {
   background: url('/static/images/mine/mine-bgc.png') top/100% no-repeat;
-  height: 1500px;
   padding: 20px 10px 0 10px;
   box-sizing: border-box;
 
@@ -89,12 +115,16 @@ const dataList = reactive<smallModeDto[]>([
         .uniui-headphones:before {
           background-color: rgba(0, 0, 0, .3);
           border-radius: 50%;
+          padding: 3px;
+          box-sizing: border-box;
         }
 
         .uniui-notification:before {
           background-color: rgba(0, 0, 0, .3);
           border-radius: 50%;
           margin-left: 3vw;
+          padding: 3px;
+          box-sizing: border-box;
         }
       }
     }
@@ -135,7 +165,8 @@ const dataList = reactive<smallModeDto[]>([
 
   .wd-card {
     margin-top: 65%;
-    height: 200px;
+    border-radius: 20px;
+    padding: 20px 10px !important;
 
     .title-top {
       display: flex;
@@ -144,9 +175,13 @@ const dataList = reactive<smallModeDto[]>([
       .top-avatar {
         display: flex;
 
-        .wd-img {
+        :deep(.wd-img) {
           background-color: rgb(201, 115, 146);
-          margin-top: -40px;
+          margin-top: -60px;
+          border: 5px solid #fff;
+          width: 20vw !important;
+          height: 20vw !important;
+
         }
 
         .top-name {
@@ -171,7 +206,63 @@ const dataList = reactive<smallModeDto[]>([
     .wd-card__content {
       .big {
         display: flex;
-        justify-content: space-between
+        justify-content: space-between;
+      }
+    }
+
+    .wd-card__footer {
+      .foot {
+        display: flex;
+        height:12.5vw ;
+        justify-content: space-between;
+        align-items: center;
+        background-color: transparent;
+
+        .foot-left {
+          width: 60%;
+          height: 100%;
+          border-top-left-radius: 13% 60%;
+          border-bottom-left-radius: 13% 60%;
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          background-color: rgb(247, 204, 133);
+
+          .text-center {
+            font-size: 4.5vw;
+          }
+
+          .text-right {
+            display: flex;
+            font-size: 3vw;
+            margin-right: 15px;
+          }
+        }
+
+        .foot-right {
+          width: 40%;
+          height: 100%;
+          border-top-right-radius: 20% 60%;
+          border-bottom-right-radius: 20% 60%;
+          background-color: rgb(41, 55, 76);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .content-text {
+            font-size: 3vw;
+            height: 7.5vw;
+            background-color: #ff7f19;
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            color: #fff;
+          }
+
+        }
+
       }
     }
   }

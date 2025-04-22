@@ -53,22 +53,23 @@
     <view class="category-tabs">
       <scroll-view scroll-x class="category-scroll">
         <view class="category-list">
-          <view 
-            v-for="(category, index) in categories" 
-            :key="index" 
-            class="category-item" 
-            :class="{ active: currentCategory === category.id }"
-            @click="changeCategory(category.id)"
-          >
+          <view v-for="(category, index) in categories" :key="index" class="category-item"
+            :class="{ active: currentCategory === category.id }" @click="changeCategory(category.id)">
             <view class="category-icon">{{ category.icon }}</view>
             <text class="category-text">{{ category.name }}</text>
           </view>
         </view>
       </scroll-view>
     </view>
-
+    <view @click="closeOutside">
+      <wd-drop-menu>
+        <wd-drop-menu-item v-model="sortType" :options="optionSortType" @change="handleChangeSortType" />
+        <wd-drop-menu-item v-model="secondarySortType" :options="optionSecondarySortType" @change="handleChangeSecondarySortType" />
+        <wd-drop-menu-item v-model="distance" :options="optionDistance" @change="handleChangeDistance" />
+      </wd-drop-menu>
+    </view>
     <!-- 筛选条件 -->
-    <wd-cell-group custom-class="filter-group">
+    <!-- <wd-cell-group custom-class="filter-group">
       <view class="filter-bar">
         <view class="filter-item" @click="toggleFilter('popularity')">
           <text>{{ filters.popularity.options[filters.popularity.current] }}</text>
@@ -83,7 +84,7 @@
           <wd-icon name="arrow-down" size="12px" color="#666"></wd-icon>
         </view>
       </view>
-    </wd-cell-group>
+    </wd-cell-group> -->
 
     <!-- 场馆列表 -->
     <view v-if="filteredVenueList.length > 0" class="venue-list">
@@ -116,7 +117,8 @@
 
     <!-- 场馆列表 - 无数据状态 -->
     <view v-else class="venue-list-empty">
-      <wd-img src="/static/images/venue/empty.png" width="160" height="160" custom-class="empty-img" fill="contain"></wd-img>
+      <wd-img src="/static/images/venue/empty.png" width="160" height="160" custom-class="empty-img"
+        fill="contain"></wd-img>
       <text class="empty-text">暂无场馆</text>
       <text class="empty-desc">到底啦</text>
     </view>
@@ -124,17 +126,14 @@
     <!-- 底部小店入口 -->
     <view class="shop-entry">
       <wd-badge value="1">
-        <wd-img src="/static/images/venue/shop.png" width="100" height="100" custom-class="shop-img" fill="contain"></wd-img>
+        <wd-img src="/static/images/venue/shop.png" width="100" height="100" custom-class="shop-img"
+          fill="contain"></wd-img>
       </wd-badge>
     </view>
 
     <!-- 筛选弹窗 -->
-    <wd-action-sheet
-      v-model="actionSheetVisible"
-      :actions="currentFilterOptions"
-      title="请选择"
-      @select="handleFilterSelect"
-    ></wd-action-sheet>
+    <!-- <wd-action-sheet v-model="actionSheetVisible" :actions="currentFilterOptions" title="请选择"
+      @select="handleFilterSelect"></wd-action-sheet> -->
 
     <!-- TabBar占位 -->
     <view class="tabbar-placeholder"></view>
@@ -143,7 +142,42 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue';
+// 组件开始
+import { useQueue } from 'wot-design-uni'
 
+const { closeOutside } = useQueue()
+const sortType = ref<number>(0)
+const secondarySortType = ref<number>(0)
+const distance = ref<number>(0)
+
+const optionSortType = ref<Record<string, any>[]>([
+  { label: '人气最高', value: 0 },
+  { label: '评分最高', value: 1 },
+  { label: '价格最低', value: 2 },
+  { label: '价格最高', value: 3 },
+])
+const optionSecondarySortType = ref<Record<string, any>[]>([
+  { label: '综合', value: 0 },
+  { label: '销量', value: 1 },
+  { label: '上架时间', value: 2 }
+])
+const optionDistance = ref<Record<string, any>[]>([
+  { label: '全城', value: 0 },
+  { label: '附近5km', value: 1 },
+  { label: '附近10km', value: 2 }
+])
+
+
+function handleChangeSortType({ value }: { value: number }): void {
+  console.log(value)
+}
+function handleChangeSecondarySortType({ value }: { value: number }): void {
+  console.log(value)
+}
+function handleChangeDistance({ value }: { value: number }): void {
+  console.log(value)
+}
+// 组件结束
 // 定义类型
 interface Category {
   id: string;
@@ -151,18 +185,18 @@ interface Category {
   icon: string;
 }
 
-interface FilterOption {
-  name: string;
-  options: string[];
-  current: number;
-}
+// interface FilterOption {
+//   name: string;
+//   options: string[];
+//   current: number;
+// }
 
-interface Filters {
-  popularity: FilterOption;
-  area: FilterOption;
-  city: FilterOption;
-  [key: string]: FilterOption;
-}
+// interface Filters {
+//   popularity: FilterOption;
+//   area: FilterOption;
+//   city: FilterOption;
+//   [key: string]: FilterOption;
+// }
 
 interface Venue {
   id: number;
@@ -198,26 +232,26 @@ const categories = reactive<Category[]>([
 const currentCategory = ref<string>('recommend');
 
 // 筛选条件
-const filters = reactive<Filters>({
-  popularity: {
-    name: 'popularity',
-    options: ['人气最高', '评分最高', '价格最低', '价格最高'],
-    current: 0
-  },
-  area: {
-    name: 'area',
-    options: ['全城', '附近5km', '附近10km'],
-    current: 0
-  },
-  city: {
-    name: 'city',
-    options: ['福州', '厦门', '泉州', '漳州'],
-    current: 0
-  }
-});
+// const filters = reactive<Filters>({
+//   popularity: {
+//     name: 'popularity',
+//     options: ['人气最高', '评分最高', '价格最低', '价格最高'],
+//     current: 0
+//   },
+//   area: {
+//     name: 'area',
+//     options: ['全城', '附近5km', '附近10km'],
+//     current: 0
+//   },
+//   city: {
+//     name: 'city',
+//     options: ['福州', '厦门', '泉州', '漳州'],
+//     current: 0
+//   }
+// });
 
 // 场馆数据
-const venueList = reactive<Venue[]>([
+const filteredVenueList = reactive<Venue[]>([
   // 推荐场馆
   {
     id: 1,
@@ -330,59 +364,59 @@ const changeCategory = (categoryId: string): void => {
 };
 
 // 切换筛选条件
-const toggleFilter = (filterType: string): void => {
-  currentFilterType.value = filterType;
-  currentFilterOptions.value = filters[filterType].options.map((option: string, index: number) => ({
-    name: option,
-    value: index
-  }));
-  actionSheetVisible.value = true;
-};
+// const toggleFilter = (filterType: string): void => {
+//   currentFilterType.value = filterType;
+//   currentFilterOptions.value = filters[filterType].options.map((option: string, index: number) => ({
+//     name: option,
+//     value: index
+//   }));
+//   actionSheetVisible.value = true;
+// };
 
-// 处理筛选选择
-const handleFilterSelect = (item: ActionItem): void => {
-  filters[currentFilterType.value].current = item.value;
-  actionSheetVisible.value = false;
-};
+// // 处理筛选选择
+// const handleFilterSelect = (item: ActionItem): void => {
+//   filters[currentFilterType.value].current = item.value;
+//   actionSheetVisible.value = false;
+// };
 
-// 筛选场馆列表
-const filteredVenueList = computed<Venue[]>(() => {
-  let result = venueList.filter(venue => {
-    // 根据当前分类筛选
-    if (currentCategory.value !== 'recommend' && venue.categoryId !== currentCategory.value) {
-      return false;
-    }
-    
-    // 根据区域筛选
-    if (filters.area.current !== 0 && venue.areaId !== filters.area.current) {
-      return false;
-    }
-    
-    // 根据城市筛选
-    if (filters.city.current !== 0 && venue.cityId !== filters.city.current) {
-      return false;
-    }
-    
-    return true;
-  });
-  
-  // 根据人气/价格排序
-  if (filters.popularity.current === 0) {
-    // 人气最高
-    result.sort((a, b) => b.popularity - a.popularity);
-  } else if (filters.popularity.current === 1) {
-    // 评分最高（模拟评分为0-100）
-    result.sort((a, b) => b.popularity - a.popularity);
-  } else if (filters.popularity.current === 2) {
-    // 价格最低
-    result.sort((a, b) => a.price - b.price);
-  } else if (filters.popularity.current === 3) {
-    // 价格最高
-    result.sort((a, b) => b.price - a.price);
-  }
-  
-  return result;
-});
+// // 筛选场馆列表
+// const filteredVenueList = computed<Venue[]>(() => {
+//   let result = venueList.filter(venue => {
+//     // 根据当前分类筛选
+//     if (currentCategory.value !== 'recommend' && venue.categoryId !== currentCategory.value) {
+//       return false;
+//     }
+
+//     // 根据区域筛选
+//     if (filters.area.current !== 0 && venue.areaId !== filters.area.current) {
+//       return false;
+//     }
+
+//     // 根据城市筛选
+//     if (filters.city.current !== 0 && venue.cityId !== filters.city.current) {
+//       return false;
+//     }
+
+//     return true;
+//   });
+
+//   // 根据人气/价格排序
+//   if (filters.popularity.current === 0) {
+//     // 人气最高
+//     result.sort((a, b) => b.popularity - a.popularity);
+//   } else if (filters.popularity.current === 1) {
+//     // 评分最高（模拟评分为0-100）
+//     result.sort((a, b) => b.popularity - a.popularity);
+//   } else if (filters.popularity.current === 2) {
+//     // 价格最低
+//     result.sort((a, b) => a.price - b.price);
+//   } else if (filters.popularity.current === 3) {
+//     // 价格最高
+//     result.sort((a, b) => b.price - a.price);
+//   }
+
+//   return result;
+// });
 </script>
 
 <style lang="scss" scoped>
@@ -395,19 +429,19 @@ const filteredVenueList = computed<Venue[]>(() => {
 /* 顶部导航栏 */
 :deep(.wd-navbar) {
   background-color: #fff;
-  
+
   .nav-title {
     display: flex;
     align-items: center;
-    
+
     .nav-item {
       font-size: 32rpx;
       padding: 0 20rpx;
       position: relative;
-      
+
       &.active {
         font-weight: bold;
-        
+
         &::after {
           content: '';
           position: absolute;
@@ -426,7 +460,7 @@ const filteredVenueList = computed<Venue[]>(() => {
   .nav-icons {
     display: flex;
     align-items: center;
-    
+
     .search-icon {
       margin-left: 20rpx;
     }
@@ -443,18 +477,18 @@ const filteredVenueList = computed<Venue[]>(() => {
 
 .banner {
   background: linear-gradient(135deg, #ffd500, #75eeff);
-  
+
   .banner-content {
     display: flex;
     padding: 30rpx;
-    
+
     .banner-left {
       flex: 3;
-      
+
       .banner-title {
         position: relative;
         margin-bottom: 20rpx;
-        
+
         .title-main {
           font-size: 48rpx;
           font-weight: bold;
@@ -462,7 +496,7 @@ const filteredVenueList = computed<Venue[]>(() => {
           line-height: 1.2;
           display: block;
         }
-        
+
         .title-sub {
           font-size: 48rpx;
           font-weight: bold;
@@ -475,19 +509,19 @@ const filteredVenueList = computed<Venue[]>(() => {
           position: absolute;
           top: 10rpx;
           right: 20%;
-          
+
           .eyes-img {
             width: 60rpx;
           }
         }
       }
-      
+
       .banner-desc {
         font-size: 24rpx;
         color: #333;
         margin-bottom: 30rpx;
       }
-      
+
       .search-box {
         display: flex;
         align-items: center;
@@ -495,7 +529,7 @@ const filteredVenueList = computed<Venue[]>(() => {
         padding: 12rpx 20rpx;
         border-radius: 30rpx;
         width: 80%;
-        
+
         .search-text {
           margin-left: 10rpx;
           font-size: 24rpx;
@@ -503,13 +537,13 @@ const filteredVenueList = computed<Venue[]>(() => {
         }
       }
     }
-    
+
     .banner-right {
       flex: 2;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      
+
       .right-item {
         background-color: rgba(255, 255, 255, 0.7);
         padding: 8rpx 16rpx;
@@ -518,7 +552,7 @@ const filteredVenueList = computed<Venue[]>(() => {
         margin-bottom: 10rpx;
         color: #333;
       }
-      
+
       .right-btn {
         background-color: rgba(0, 0, 0, 0.7);
         color: #fff;
@@ -539,7 +573,7 @@ const filteredVenueList = computed<Venue[]>(() => {
         border-radius: 10rpx;
         font-size: 24rpx;
         margin-top: 10rpx;
-        
+
         text {
           margin-left: 6rpx;
         }
@@ -553,32 +587,32 @@ const filteredVenueList = computed<Venue[]>(() => {
   margin: 20rpx 0;
   background-color: #fff;
   padding: 20rpx 0;
-  
+
   .category-scroll {
     white-space: nowrap;
   }
-  
+
   .category-list {
     display: flex;
     padding: 0 20rpx;
-    
+
     .category-item {
       display: inline-flex;
       flex-direction: column;
       align-items: center;
       margin-right: 40rpx;
-      
+
       &.active {
         .category-text {
           color: #00deff;
         }
       }
-      
+
       .category-icon {
         font-size: 40rpx;
         margin-bottom: 10rpx;
       }
-      
+
       .category-text {
         font-size: 24rpx;
         color: #666;
@@ -596,14 +630,14 @@ const filteredVenueList = computed<Venue[]>(() => {
   display: flex;
   background-color: #fff;
   padding: 20rpx 30rpx;
-  
+
   .filter-item {
     display: flex;
     align-items: center;
     margin-right: 40rpx;
     font-size: 26rpx;
     color: #666;
-    
+
     text {
       margin-right: 4rpx;
     }
@@ -615,20 +649,20 @@ const filteredVenueList = computed<Venue[]>(() => {
   padding: 20rpx;
   display: flex;
   flex-direction: column;
-  
+
   :deep(.venue-card) {
     margin-bottom: 20rpx;
     border-radius: 16rpx !important;
     overflow: hidden;
   }
-  
+
   .venue-item {
     display: flex;
-    
+
     .venue-image {
       position: relative;
       margin-right: 20rpx;
-      
+
       .venue-badge {
         position: absolute;
         top: 10rpx;
@@ -640,25 +674,25 @@ const filteredVenueList = computed<Venue[]>(() => {
         border-radius: 16rpx;
       }
     }
-    
+
     .venue-info {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      
+
       .venue-name {
         font-size: 32rpx;
         font-weight: bold;
         margin-bottom: 10rpx;
         color: #333;
       }
-      
+
       .venue-tags {
         display: flex;
         flex-wrap: wrap;
         margin-bottom: 10rpx;
-        
+
         .venue-tag {
           background-color: #f5f5f5;
           color: #666;
@@ -669,35 +703,35 @@ const filteredVenueList = computed<Venue[]>(() => {
           margin-bottom: 8rpx;
         }
       }
-      
+
       .venue-address {
         display: flex;
         align-items: center;
         font-size: 24rpx;
         color: #999;
         margin-bottom: 10rpx;
-        
+
         text {
           margin-left: 6rpx;
         }
       }
-      
+
       .venue-price {
         display: flex;
         align-items: baseline;
-        
+
         .price {
           font-size: 34rpx;
           font-weight: bold;
           color: #ff5a5a;
         }
-        
+
         .unit {
           font-size: 24rpx;
           color: #999;
           margin-left: 4rpx;
         }
-        
+
         .distance {
           margin-left: auto;
           color: #999;
@@ -715,18 +749,18 @@ const filteredVenueList = computed<Venue[]>(() => {
   align-items: center;
   justify-content: center;
   padding: 100rpx 0;
-  
+
   :deep(.empty-img) {
     opacity: 0.6;
     margin-bottom: 20rpx;
   }
-  
+
   .empty-text {
     font-size: 30rpx;
     color: #999;
     margin-bottom: 10rpx;
   }
-  
+
   .empty-desc {
     font-size: 24rpx;
     color: #ccc;
@@ -744,4 +778,4 @@ const filteredVenueList = computed<Venue[]>(() => {
 .tabbar-placeholder {
   height: 100rpx;
 }
-</style> 
+</style>

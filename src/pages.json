@@ -21,6 +21,13 @@
 			}
 		},
 		{
+			"path": "pages/club/index",
+			"style": {
+				"navigationBarTitleText": "我的俱乐部",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "uni-app"
@@ -35,7 +42,7 @@
 	},
 	"tabBar": {
 		"color": "#999999",
-		"selectedColor": "#000000",
+		"selectedColor": "#00deff",
 		"backgroundColor": "#ffffff",
 		"list": [
 			{
@@ -51,7 +58,7 @@
 				"selectedIconPath": "static/tabbar/venue-active.png"
 			},
 			{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/club/index",
 				"text": "俱乐部",
 				"iconPath": "static/tabbar/club.png",
 				"selectedIconPath": "static/tabbar/club-active.png"

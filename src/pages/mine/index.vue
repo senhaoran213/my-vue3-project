@@ -42,7 +42,7 @@
       </template>
       <template #default>
         <view class="big">
-          <small-mode v-for="(item, index) in dataList " :smallModeList="item" :key="index"></small-mode>
+          <small-mode v-for="(item, index) in dataList" :smallModeList="item" :key="index"></small-mode>
         </view>
       </template>
       <template #footer>
@@ -55,8 +55,7 @@
               闪动福利包
             </view>
             <view class="text-right">
-              查看权益
-              <text style="margin-left: 3px;">></text>
+              查看权益&nbsp;>
             </view>
           </view>
           <view class="foot-right">
@@ -163,6 +162,20 @@ const dataList = reactive<SmallModeDto[]>([
     height: 0px !important;
   }
 
+  :deep(.wd-card) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  :deep(.wd-card__content) {
+    flex: 1;
+  }
+
+  :deep(.wd-card__footer) {
+    margin-top: auto;
+  }
+
   .wd-card {
     margin-top: 65%;
     border-radius: 20px;
@@ -178,7 +191,7 @@ const dataList = reactive<SmallModeDto[]>([
         :deep(.wd-img) {
           background-color: rgb(201, 115, 146);
           margin-top: -60px;
-          border: 5px solid #fff;
+          border: 0.7vw solid #fff;
           width: 20vw !important;
           height: 20vw !important;
 
@@ -213,7 +226,7 @@ const dataList = reactive<SmallModeDto[]>([
     .wd-card__footer {
       .foot {
         display: flex;
-        height:12.5vw ;
+        height: 6.5vw;
         justify-content: space-between;
         align-items: center;
         background-color: transparent;
@@ -221,39 +234,42 @@ const dataList = reactive<SmallModeDto[]>([
         .foot-left {
           width: 60%;
           height: 100%;
-          border-top-left-radius: 13% 60%;
-          border-bottom-left-radius: 13% 60%;
+          border-top-left-radius: 7% 50%;
+          border-bottom-left-radius: 7% 50%;
           display: flex;
           align-items: center;
           justify-content: space-evenly;
           background-color: rgb(247, 204, 133);
 
           .text-center {
-            font-size: 4.5vw;
+            font-size: 3vw;
+            color: #0000007d;
           }
 
           .text-right {
             display: flex;
-            font-size: 3vw;
+            font-size: 2.8vw;
             margin-right: 15px;
+            color: #0000007d;
+            text-decoration: underline;
           }
         }
 
         .foot-right {
           width: 40%;
           height: 100%;
-          border-top-right-radius: 20% 60%;
-          border-bottom-right-radius: 20% 60%;
+          border-top-right-radius: 10% 50%;
+          border-bottom-right-radius: 10% 50%;
           background-color: rgb(41, 55, 76);
           display: flex;
           justify-content: center;
           align-items: center;
 
           .content-text {
-            font-size: 3vw;
-            height: 7.5vw;
+            font-size: 2.8vw;
+            height: 4vw;
             background-color: #ff7f19;
-            width: 80%;
+            width: 50%;
             display: flex;
             justify-content: center;
             align-items: center;

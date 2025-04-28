@@ -4,8 +4,8 @@
     <wd-navbar title="我的俱乐部">
       <template #right>
         <view class="navbar-right">
-          <wd-icon name="more" size="20px" color="#333"></wd-icon>
-          <wd-icon name="add" size="20px" color="#333" class="add-icon"></wd-icon>
+          <!-- <wd-icon name="more" size="20px" color="#333"></wd-icon>
+          <wd-icon name="add" size="20px" color="#333" class="add-icon"></wd-icon> -->
         </view>
       </template>
     </wd-navbar>

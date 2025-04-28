@@ -476,7 +476,7 @@ const changeCategory = (categoryId: string): void => {
 }
 
 .banner {
-  background: linear-gradient(135deg, #ffd500, #75eeff);
+  background: linear-gradient(135deg, #88b4f6 0%, #c1a3ee 100%);
 
   .banner-content {
     display: flex;

@@ -1,571 +1,328 @@
 <template>
   <view class="flash-container">
-    <!-- 顶部广告横幅 -->
-    <view class="banner">
-      <view class="banner-left">
-        <view class="banner-title">
-          <text class="title-main">主理人脸</text>
-          <text class="title-sub">年包已上线</text>
-          <view class="banner-eyes">
-            <image src="/static/images/venue/eyes.png" mode="widthFix" class="eyes-img"></image>
-          </view>
+    <!-- 顶部导航栏 -->
+    <wd-navbar title="闪动">
+      <template #right>
+        <view class="navbar-right">
+          <wd-icon name="search" size="20px" color="#333"></wd-icon>
+          <wd-icon name="add" size="20px" color="#333" class="add-icon"></wd-icon>
         </view>
-        <view class="banner-desc">前50名购买年卡的主理人可获得场馆赠20次</view>
-      </view>
-      <view class="banner-right">
-        <view class="right-item">4款套餐任您挑选</view>
-        <view class="right-item">一次购买保障一年</view>
-        <view class="right-item">俱乐部专享定制皮肤</view>
-        <view class="right-item">更有限定皮肤解锁</view>
-      </view>
-    </view>
+      </template>
+    </wd-navbar>
 
-    <!-- 搜索框 -->
+    <!-- 搜索栏 -->
     <view class="search-box">
-      <view class="search-input">
-        <wd-icon name="search" size="4vm" color="#999"></wd-icon>
-        <text class="search-placeholder">活动/场馆名称</text>
-      </view>
-      <view class="search-button">点击下滑购买 >>></view>
-      <view class="promote-button">
-        <wd-icon name="fire" size="4vm" color="#fff"></wd-icon>
-        <text>我要推广</text>
-      </view>
+      <wd-search v-model="searchValue" placeholder="搜索活动" cancel-txt=" "></wd-search>
     </view>
 
-    <!-- 运动分类 -->
-    <scroll-view scroll-x class="category-scroll" :show-scrollbar="false">
-      <view class="category-list">
-        <view class="category-item active">
-          <view class="category-icon">👍</view>
-          <text class="category-text">推荐</text>
-        </view>
-        <view class="category-item">
-          <view class="category-icon">🏸</view>
-          <text class="category-text">羽毛球</text>
-        </view>
-        <view class="category-item">
-          <view class="category-icon">🏆</view>
-          <text class="category-text">生活</text>
-        </view>
-        <view class="category-item">
-          <view class="category-icon">⚽</view>
-          <text class="category-text">足球</text>
-        </view>
-        <view class="category-item">
-          <view class="category-icon">🏊</view>
-          <text class="category-text">飞镖</text>
-        </view>
-      </view>
-    </scroll-view>
-
-    <!-- 日期选择 -->
-    <scroll-view scroll-x class="date-scroll" :show-scrollbar="false">
-      <view class="date-list">
-        <view class="date-header">
-          <text class="date-day">今日</text>
-          <text class="date-day">周日</text>
-          <text class="date-day">周一</text>
-          <text class="date-day">周二</text>
-          <text class="date-day">周三</text>
-          <text class="date-day">周四</text>
-          <text class="date-day">周五</text>
-        </view>
-        <view class="date-numbers">
-          <view class="date-item active">
-            <text>19</text>
-          </view>
-          <view class="date-item">
-            <text>20</text>
-          </view>
-          <view class="date-item">
-            <text>21</text>
-          </view>
-          <view class="date-item">
-            <text>22</text>
-          </view>
-          <view class="date-item">
-            <text>23</text>
-          </view>
-          <view class="date-item">
-            <text>24</text>
-          </view>
-          <view class="date-item">
-            <text>25</text>
-          </view>
-        </view>
-      </view>
-    </scroll-view>
-
-    <!-- 筛选条件 -->
-    <view class="filter-bar">
-      <view class="filter-item">
-        <text>智能排序</text>
-        <wd-icon name="arrow-down" size="3vm" color="#666"></wd-icon>
-      </view>
-      <view class="filter-item">
-        <text>全城</text>
-        <wd-icon name="arrow-down" size="3vm" color="#666"></wd-icon>
-      </view>
-    </view>
+    <!-- 活动类型标签页 -->
+    <wd-tabs v-model="activeTab" class="type-tabs">
+      <wd-tab title="推荐"></wd-tab>
+      <wd-tab title="羽毛球"></wd-tab>
+      <wd-tab title="篮球"></wd-tab>
+      <wd-tab title="足球"></wd-tab>
+      <wd-tab title="网球"></wd-tab>
+      <wd-tab title="飞盘"></wd-tab>
+    </wd-tabs>
 
     <!-- 活动列表 -->
     <view class="activity-list">
-      <!-- 活动项目1 -->
-      <wd-card custom-class="activity-card">
+      <wd-card v-for="(activity, index) in activities" :key="index" custom-class="activity-card">
         <view class="activity-item">
-          <view class="activity-title">豪城4月19日晚上畅打</view>
+          <!-- 活动图片 -->
+          <view class="activity-image">
+            <wd-img :src="activity.image" width="100%" height="180px" mode="aspectFill"></wd-img>
+            <view class="activity-tag" :class="activity.tagClass">{{ activity.tag }}</view>
+          </view>
+          
+          <!-- 活动信息 -->
           <view class="activity-info">
-            <view class="activity-location">
-              <wd-icon name="location" size="3.5vm" color="#999"></wd-icon>
-              <text>豪城羽毛球交流中心</text>
-              <text class="activity-distance">| 3.7km</text>
-            </view>
-            <view class="activity-time">
-              <wd-icon name="clock" size="3.5vm" color="#999"></wd-icon>
-              <text>04月19日 周六 19:00-22:00</text>
-            </view>
-          </view>
-          <view class="activity-footer">
-            <view class="avatar-list">
-              <view class="avatar-item" v-for="n in 5" :key="n">
-                <wd-img width="6.5vm" height="6.5vm" round :src="`/static/images/avatar${n}.png`"></wd-img>
+            <view class="activity-title">{{ activity.title }}</view>
+            <view class="activity-desc">{{ activity.description }}</view>
+            
+            <!-- 活动详情 -->
+            <view class="activity-details">
+              <view class="detail-item">
+                <wd-icon name="location" size="16px" color="#999"></wd-icon>
+                <text>{{ activity.location }}</text>
               </view>
-              <view class="avatar-more">...</view>
+              <view class="detail-item">
+                <wd-icon name="time" size="16px" color="#999"></wd-icon>
+                <text>{{ activity.time }}</text>
+              </view>
             </view>
+            
+            <!-- 活动状态 -->
             <view class="activity-status">
-              <view class="status-text">报名中 14/18</view>
-              <view class="level-text">L1-L8</view>
-            </view>
-            <view class="activity-venue">
-              <wd-img width="8vm" height="8vm" src="/static/images/venue/venue1.png"></wd-img>
-              <text>豪城运动羽毛球交流中心</text>
-            </view>
-            <view class="signup-button">
-              去报名
+              <view class="status-tag" :class="activity.statusClass">
+                {{ activity.status }}
+              </view>
+              <view class="price">¥{{ activity.price }}</view>
             </view>
           </view>
-        </view>
-      </wd-card>
-
-      <!-- 活动项目2 -->
-      <wd-card custom-class="activity-card">
-        <view class="activity-item">
-          <view class="activity-title">羽嗨俱乐部-宝龙极致馆</view>
-          <view class="activity-info">
-            <view class="activity-location">
-              <wd-icon name="location" size="3.5vm" color="#999"></wd-icon>
-              <text>威克多·极致羽毛球馆(宁化地铁店)</text>
-              <text class="activity-distance">| 3.4km</text>
-            </view>
-            <view class="activity-time">
-              <wd-icon name="clock" size="3.5vm" color="#999"></wd-icon>
-              <text>04月20日 周日 07:00-10:00</text>
-            </view>
-          </view>
+          
+          <!-- 活动底部 -->
           <view class="activity-footer">
-            <view class="avatar-list">
-              <view class="avatar-item" v-for="n in 5" :key="n">
-                <wd-img width="6.5vm" height="6.5vm" round :src="`/static/images/avatar${n}.png`"></wd-img>
+            <view class="participants">
+              <view class="avatar-group">
+                <wd-img 
+                  v-for="(avatar, idx) in activity.avatars" 
+                  :key="idx"
+                  :src="avatar"
+                  width="24"
+                  height="24"
+                  round
+                  :style="{ marginLeft: idx > 0 ? '-8px' : '0' }"
+                ></wd-img>
               </view>
-              <view class="avatar-more">...</view>
+              <text class="participant-count">{{ activity.participantCount }}人已报名</text>
             </view>
-            <view class="activity-status">
-              <view class="status-text">报名中 11/42</view>
-              <view class="level-text">L1-L8</view>
-            </view>
-            <view class="activity-venue">
-              <wd-img width="8vm" height="8vm" src="/static/images/venue/venue2.png"></wd-img>
-              <view class="price-tag">
-                <text>¥</text>
-                <view class="price-icon">
-                  <wd-icon name="cart" size="3.5vm" color="#fff"></wd-icon>
-                </view>
-                <text>闪购特惠</text>
-              </view>
-            </view>
-            <view class="signup-button">
-              去报名
-            </view>
+            <wd-button 
+              size="small" 
+              :type="activity.status === '报名中' ? 'primary' : 'info'"
+              :disabled="activity.status !== '报名中'"
+            >
+              {{ activity.status === '报名中' ? '立即报名' : '已结束' }}
+            </wd-button>
           </view>
         </view>
       </wd-card>
     </view>
 
-    <!-- 底部占位 -->
-    <view class="tabbar-placeholder"></view>
+    <!-- 底部悬浮按钮 -->
+    <view class="float-btn">
+      <wd-button circle type="primary">
+        <wd-icon name="add" size="24px" color="#fff"></wd-icon>
+      </wd-button>
+    </view>
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 
-// 页面逻辑可以根据需要添加
+// 搜索值
+const searchValue = ref('');
+
+// 标签页激活索引
+const activeTab = ref(0);
+
+// 活动数据
+const activities = reactive([
+  {
+    id: 1,
+    title: '周末羽毛球活动',
+    description: '专业教练指导，适合各水平球友',
+    image: '/static/images/activity/activity1.png',
+    location: '北京朝阳体育馆',
+    time: '2024-04-27 14:00',
+    price: 88,
+    tag: '热门',
+    tagClass: 'hot',
+    status: '报名中',
+    statusClass: 'active',
+    participantCount: 12,
+    avatars: [
+      '/static/images/avatar/avatar1.png',
+      '/static/images/avatar/avatar2.png',
+      '/static/images/avatar/avatar3.png'
+    ]
+  },
+  {
+    id: 2,
+    title: '篮球友谊赛',
+    description: '5v5全场，欢迎篮球爱好者',
+    image: '/static/images/activity/activity2.png',
+    location: '上海浦东体育馆',
+    time: '2024-04-28 19:00',
+    price: 68,
+    tag: '新活动',
+    tagClass: 'new',
+    status: '报名中',
+    statusClass: 'active',
+    participantCount: 8,
+    avatars: [
+      '/static/images/avatar/avatar4.png',
+      '/static/images/avatar/avatar5.png'
+    ]
+  },
+  {
+    id: 3,
+    title: '网球训练营',
+    description: '专业教练一对一指导',
+    image: '/static/images/activity/activity3.png',
+    location: '广州天河体育中心',
+    time: '2024-04-29 15:00',
+    price: 128,
+    tag: '精品',
+    tagClass: 'premium',
+    status: '已结束',
+    statusClass: 'ended',
+    participantCount: 15,
+    avatars: [
+      '/static/images/avatar/avatar1.png',
+      '/static/images/avatar/avatar2.png',
+      '/static/images/avatar/avatar3.png',
+      '/static/images/avatar/avatar4.png'
+    ]
+  }
+]);
 </script>
 
 <style lang="scss" scoped>
-/* 所有尺寸都使用vm单位 */
 .flash-container {
-  padding: 0 3vm;
-  background-color: #f5f5f5;
   min-height: 100vh;
+  background: linear-gradient(135deg, #f7f4ff 0%, #e9e6ff 100%);
+  padding-bottom: 80px;
 }
 
-/* 顶部广告横幅 */
-.banner {
-  margin-top: 3vm;
+.navbar-right {
   display: flex;
-  background: linear-gradient(135deg, #ffd500, #75f7ff);
-  border-radius: 3vm;
-  padding: 3vm;
-  margin-bottom: 3vm;
-  position: relative;
-  overflow: hidden;
-
-  .banner-left {
-    flex: 3;
-    
-    .banner-title {
-      position: relative;
-      margin-bottom: 2vm;
-      
-      .title-main {
-        font-size: 5.5vm;
-        font-weight: bold;
-        color: #000;
-        line-height: 1.2;
-        display: block;
-      }
-      
-      .title-sub {
-        font-size: 5.5vm;
-        font-weight: bold;
-        color: #28ce26;
-        line-height: 1.2;
-        display: block;
-      }
-
-      .banner-eyes {
-        position: absolute;
-        top: 1vm;
-        right: 20%;
-        
-        .eyes-img {
-          width: 6vm;
-        }
-      }
-    }
-    
-    .banner-desc {
-      font-size: 3vm;
-      color: #333;
-      margin-bottom: 2vm;
-    }
-  }
+  align-items: center;
   
-  .banner-right {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    
-    .right-item {
-      background-color: rgba(255, 255, 255, 0.7);
-      padding: 1vm 2vm;
-      border-radius: 1vm;
-      font-size: 2.6vm;
-      margin-bottom: 1vm;
-      color: #333;
-    }
+  .add-icon {
+    margin-left: 15px;
   }
 }
 
-/* 搜索框 */
 .search-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 3vm;
-  
-  .search-input {
-    display: flex;
-    align-items: center;
-    background-color: #f0f0f0;
-    padding: 2vm 3vm;
-    border-radius: 6vm;
-    flex: 1;
-    
-    .search-placeholder {
-      color: #999;
-      margin-left: 1vm;
-      font-size: 3.2vm;
-    }
-  }
-  
-  .search-button {
-    background-color: #333;
-    color: #fff;
-    font-size: 2.8vm;
-    padding: 1.5vm 2.5vm;
-    border-radius: 6vm;
-    margin: 0 2vm;
-  }
-  
-  .promote-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f24949;
-    padding: 1.5vm 2.5vm;
-    border-radius: 6vm;
-    
-    text {
-      color: #fff;
-      margin-left: 1vm;
-      font-size: 2.8vm;
-    }
-  }
-}
-
-/* 运动分类 */
-.category-scroll {
-  white-space: nowrap;
-  margin-bottom: 3vm;
-  
-  .category-list {
-    display: flex;
-    padding: 1vm 0;
-    
-    .category-item {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      margin-right: 6vm;
-      
-      &.active {
-        .category-text {
-          color: #00cdff;
-          font-weight: bold;
-        }
-        
-        .category-icon {
-          position: relative;
-          
-          &::after {
-            content: '';
-            position: absolute;
-            bottom: -1vm;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 5vm;
-            height: 0.5vm;
-            background-color: #00cdff;
-            border-radius: 0.5vm;
-          }
-        }
-      }
-      
-      .category-icon {
-        font-size: 5vm;
-        margin-bottom: 1vm;
-      }
-      
-      .category-text {
-        font-size: 3vm;
-        color: #666;
-      }
-    }
-  }
-}
-
-/* 日期选择 */
-.date-scroll {
-  margin-bottom: 2vm;
+  padding: 10px 15px;
   background-color: #fff;
-  padding: 2vm 0;
-  border-radius: 2vm;
-  
-  .date-list {
-    .date-header {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 1vm;
-      
-      .date-day {
-        font-size: 2.8vm;
-        color: #666;
-        width: 12vm;
-        text-align: center;
-      }
-    }
-    
-    .date-numbers {
-      display: flex;
-      justify-content: space-around;
-      
-      .date-item {
-        width: 8vm;
-        height: 8vm;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        font-size: 3.2vm;
-        color: #333;
-        
-        &.active {
-          background-color: #00cdff;
-          color: #fff;
-        }
-      }
-    }
-  }
 }
 
-/* 筛选条件 */
-.filter-bar {
-  display: flex;
-  align-items: center;
-  padding: 2vm 0;
-  margin-bottom: 2vm;
-  
-  .filter-item {
-    display: flex;
-    align-items: center;
-    margin-right: 4vm;
-    font-size: 3vm;
-    color: #666;
-    
-    text {
-      margin-right: 1vm;
-    }
-  }
+.type-tabs {
+  background-color: #fff;
+  margin-bottom: 10px;
 }
 
-/* 活动列表 */
 .activity-list {
-  margin-bottom: 20vm;
-  
-  :deep(.activity-card) {
-    margin-bottom: 3vm;
-    border-radius: 3vm !important;
-    overflow: hidden;
-  }
+  padding: 0 15px;
+}
+
+.activity-card {
+  margin-bottom: 15px;
+  border-radius: 12px !important;
+  overflow: hidden;
   
   .activity-item {
-    .activity-title {
-      font-size: 4vm;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 2vm;
+    .activity-image {
+      position: relative;
+      
+      .activity-tag {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: #fff;
+        
+        &.hot {
+          background-color: #ff4d4f;
+        }
+        
+        &.new {
+          background-color: #52c41a;
+        }
+        
+        &.premium {
+          background-color: #faad14;
+        }
+      }
     }
     
     .activity-info {
-      margin-bottom: 2vm;
+      padding: 15px;
       
-      .activity-location, .activity-time {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1vm;
-        font-size: 3vm;
-        color: #666;
-        
-        text {
-          margin-left: 1vm;
-        }
-        
-        .activity-distance {
-          color: #999;
-          margin-left: 1vm;
-        }
+      .activity-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 8px;
       }
-    }
-    
-    .activity-footer {
-      display: flex;
-      flex-direction: column;
       
-      .avatar-list {
+      .activity-desc {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 12px;
+      }
+      
+      .activity-details {
         display: flex;
-        align-items: center;
-        margin-bottom: 2vm;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 12px;
         
-        .avatar-item {
-          margin-right: -1.5vm;
-          border: 0.2vm solid #fff;
-          border-radius: 50%;
-        }
-        
-        .avatar-more {
-          width: 6.5vm;
-          height: 6.5vm;
-          background-color: #f0f0f0;
-          color: #999;
+        .detail-item {
           display: flex;
           align-items: center;
-          justify-content: center;
-          border-radius: 50%;
-          margin-left: 2vm;
-          font-size: 3vm;
+          font-size: 12px;
+          color: #999;
+          
+          text {
+            margin-left: 4px;
+          }
         }
       }
       
       .activity-status {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 2vm;
-        
-        .status-text {
-          color: #00cdff;
-          font-size: 3vm;
-        }
-        
-        .level-text {
-          color: #00cdff;
-          font-size: 3vm;
-        }
-      }
-      
-      .activity-venue {
-        display: flex;
         align-items: center;
-        margin-bottom: 2vm;
         
-        text {
-          margin-left: 2vm;
-          font-size: 3vm;
-          color: #666;
-        }
-        
-        .price-tag {
-          margin-left: 2vm;
-          display: flex;
-          align-items: center;
-          color: #ff5722;
-          font-size: 3vm;
+        .status-tag {
+          padding: 2px 8px;
+          border-radius: 4px;
+          font-size: 12px;
           
-          .price-icon {
-            background-color: #ff5722;
-            border-radius: 1vm;
-            margin: 0 0.5vm;
+          &.active {
+            background-color: #e6f7ff;
+            color: #1890ff;
+          }
+          
+          &.ended {
+            background-color: #f5f5f5;
+            color: #999;
           }
         }
+        
+        .price {
+          font-size: 16px;
+          font-weight: 500;
+          color: #ff4d4f;
+        }
       }
+    }
+    
+    .activity-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      border-top: 1px solid #f5f5f5;
       
-      .signup-button {
-        align-self: flex-end;
-        background-color: #00cdff;
-        color: #fff;
-        font-size: 3.2vm;
-        padding: 1.5vm 5vm;
-        border-radius: 6vm;
+      .participants {
+        display: flex;
+        align-items: center;
+        
+        .avatar-group {
+          display: flex;
+          margin-right: 8px;
+        }
+        
+        .participant-count {
+          font-size: 12px;
+          color: #999;
+        }
       }
     }
   }
 }
 
-/* 底部占位 */
-.tabbar-placeholder {
-  height: 13vm;
+.float-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 80px;
+  z-index: 999;
 }
 </style>
